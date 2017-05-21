@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+		<link type="text/css" rel="stylesheet" href="swiper.min.css" />
+		<link type="text/css" rel="stylesheet" href="main.css" />
+		<script src="swiper.min.js"></script>
+		<script src="iscroll.js"></script>
+		<script src="zepto.min.js"></script>
+		
+	</head>
+	<body>
+		<!-- 程序介绍页 -->
+		<div class="swiper-container guider-page">
+		    <div class="swiper-wrapper">
+		    	<div class="swiper-slide"><img src="3.jpg"/></div>
+		    	<div class="swiper-slide"><img src="4.jpg"/></div>
+		    	<div class="swiper-slide"><img src="5.jpg"/></div>
+		    	<div class="swiper-slide"><img src="6.jpg"/><button onclick="enterAction()" id="enter"></button></div>
+		    </div>
+		    <!-- 如果需要分页器 -->
+		    <div class="swiper-pagination"></div>
+		</div>
+		
+		
+		<header class="header">
+			<h1>ZXIU 走秀网</h1>
+		</header>
+		
+		
+		<div class="content">
+			<div class="scroll">
+				 
+			<!-- 搜索框 -->
+			<div class="search">
+				<div class="search-label">
+					<span class="icon"></span>
+					<span class="text">请输入搜索内容</span>
+				</div>
+			</div>
+			<!-- 轮播图 -->
+			<div class="swiper-container lunbo-page">
+			    <div class="swiper-wrapper">
+			    	<!-- 通过请求插入图片 -->
+			    </div>
+			    <!-- 如果需要分页器 -->
+			    <div class="swiper-pagination"></div>
+			</div>
+			
+			<!-- 列表视图 -->
+			<ul class="list">
+				
+			</ul>
+			
+			</div>
+		</div>
+		
+		<nav class="tabs">
+			<li class="tab">
+				首页
+			</li>
+			<li class="tab">
+				分类
+			</li>
+			<li class="tab">
+				购物车
+			</li>
+			<li class="tab">
+				我的秀
+			</li>
+			<li class="tab">
+				更多
+			</li>
+		</nav>
+		
+		
+		
+		
+		<script>
+			'use strict'
+			//判断是否是第一次进入程序
+			//将判断值存在localstroage中
+//			localStorage.setItem('start', true);
+			
+			if(!localStorage.getItem('start')){
+				//就是第一次进入程序
+				document.querySelector('.guider-page').style.display = 'block';
+			}
+			
+			//创建介绍页
+			var guiderSwiper = new Swiper('.guider-page', {
+				pagination: '.swiper-pagination',
+//				noSwiping: true,
+				resistanceRatio: 0
+			});
+			
+			function enterAction(){
+				//将介绍页删除
+				document.querySelector('.guider-page').style.display = 'none';
+				//将判断值存在localstroage中
+				localStorage.setItem('start', true);
+			}
+			
+			
+			
+			
+			//创建轮播图
+			var mySwiper = new Swiper ('.lunbo-page', {
+			    direction: 'horizontal',//切换的方向
+			    loop: true,//是否循环
+			    pagination: '.swiper-pagination'
+			})  
+			//创建滚动视图
+			var myIscroll = new IScroll('.content', {
+				click: true
+			});
+			
+			
+		
+			//请求轮播图片
+			setTimeout(function(){
+				var images = ['lunbo.jpg', 'lunbo.jpg', 'lunbo.jpg'];
+				
+				var html = '';
+				for (var i = 0; i < images.length; i++) {
+					html += `<div class="swiper-slide">
+					        	 <img src="${images[i]}" />
+					         </div>`;
+				}
+				document.querySelector('.lunbo-page .swiper-wrapper').innerHTML = html;
+				//更新轮播图
+				mySwiper.update();	
+				mySwiper.reLoop();
+			}, 100);
+			
+			
+			//请求的列表数据
+			setTimeout(function(){
+				var items = [
+					{'image': 'item.jpg', title: '0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀'},
+					{'image': 'item.jpg', title: '0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀'},
+					{'image': 'item.jpg', title: '0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀'},
+					{'image': 'item.jpg', title: '0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀'},
+					{'image': 'item.jpg', title: '0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀'},
+					{'image': 'item.jpg', title: '0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀0元大抽奖，走秀'}
+				]
+				
+				var html = '';
+				for (var i = 0; i < items.length; i++) {
+					html += `<li class="item">
+								<div class="item-img">
+									<img src="${items[i].image}" />
+								</div>
+								<div class="item-content">
+									<p>${items[i].title}</p>
+								</div>
+							</li>`;
+				}
+				document.querySelector('.list').innerHTML = html;
+				
+				$('.item').on('click', function(){
+					console.log('tap');
+				})
+				
+				myIscroll.refresh();
+				
+			}, 500);
+			
+			
+			
+			
+			
+		</script>
+		
+	</body>
+</html>
